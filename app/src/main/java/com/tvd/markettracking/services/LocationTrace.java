@@ -84,6 +84,10 @@ public class LocationTrace extends Service implements ConnectionCallbacks,
         } catch (RuntimeException e) {
             startupdates = false;
             endlocation = mLastLocation;
+            stopLocationUpdates();
+            if (mGoogleApiClient.isConnected()) {
+                mGoogleApiClient.disconnect();
+            }
             this.stopSelf();
         }
     }
