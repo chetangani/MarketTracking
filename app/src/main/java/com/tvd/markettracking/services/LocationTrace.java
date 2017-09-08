@@ -19,9 +19,12 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class LocationTrace extends Service implements ConnectionCallbacks,
         OnConnectionFailedListener, LocationListener {
-
+    public static final String BROADCAST_ACTION = "LocationTrace";
     public static Location mLastLocation;
     public static Location startlocation, endlocation;
     private boolean startupdates = false;
@@ -37,7 +40,7 @@ public class LocationTrace extends Service implements ConnectionCallbacks,
     // Location updates intervals in sec
     private static int UPDATE_INTERVAL = 10000; // 10 sec
     private static int FATEST_INTERVAL = 5000; // 5 sec
-    private static int DISPLACEMENT = 30; // 30 meters
+    private static int DISPLACEMENT = 50; // 50 meters
 
     public LocationTrace() {
     }
@@ -108,6 +111,9 @@ public class LocationTrace extends Service implements ConnectionCallbacks,
             return;
         }
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        Intent intent = new Intent(BROADCAST_ACTION);
+        intent.putExtra("time", currentTime());
+        sendBroadcast(intent);
         if (startupdates)
             startlocation = mLastLocation;
     }
@@ -219,5 +225,11 @@ public class LocationTrace extends Service implements ConnectionCallbacks,
             // Displaying the new location on UI
             displayLocation();
         }
+    }
+
+    public String currentTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+        String cdt = sdf.format(new Date());
+        return cdt;
     }
 }

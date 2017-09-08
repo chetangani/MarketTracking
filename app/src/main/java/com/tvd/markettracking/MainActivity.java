@@ -20,7 +20,7 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import com.tvd.markettracking.fragment.Details_Fragment;
-import com.tvd.markettracking.receiver.LocationReceiver;
+import com.tvd.markettracking.services.LocationService;
 import com.tvd.markettracking.services.LocationTrace;
 
 import static com.tvd.markettracking.values.ConstantValues.SHARED_PREFS_NAME;
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity
         logoutnavigationView.setNavigationItemSelectedListener(this);
 
         startService();
-        startReceiver();
+//        startReceiver();
 
         startup(new Details_Fragment());
     }
@@ -90,9 +90,10 @@ public class MainActivity extends AppCompatActivity
         switch (id) {
             case R.id.nav_logout:
                 stopService();
-                stopReceiver();
+//                stopReceiver();
                 editor.putString("MTP_ID", "");
                 editor.putString("Login", "");
+                editor.putString("time", "");
                 editor.commit();
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -110,12 +111,16 @@ public class MainActivity extends AppCompatActivity
         if (!isMyServiceRunning(LocationTrace.class)) {
             Intent intent = new Intent(MainActivity.this, LocationTrace.class);
             startService(intent);
+            Intent location = new Intent(MainActivity.this, LocationService.class);
+            startService(location);
         }
     }
 
     private void stopService() {
         Intent intent = new Intent(MainActivity.this, LocationTrace.class);
         stopService(intent);
+        Intent location = new Intent(MainActivity.this, LocationService.class);
+        stopService(location);
     }
 
     public SharedPreferences getShared() {
@@ -126,13 +131,16 @@ public class MainActivity extends AppCompatActivity
         return this.editor;
     }
 
-    private void startReceiver() {
+    /*private void startReceiver() {
         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(MainActivity.this, LocationReceiver.class);
         boolean alarmRunning = (PendingIntent.getBroadcast(MainActivity.this, 0, intent, PendingIntent.FLAG_NO_CREATE) != null);
         if (!alarmRunning) {
             pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, 0);
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 120000, pendingIntent);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 60000, pendingIntent);
+        } else {
+            pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, 0);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 60000, pendingIntent);
         }
     }
 
@@ -144,7 +152,7 @@ public class MainActivity extends AppCompatActivity
             pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, 0);
             alarmManager.cancel(pendingIntent);
         }
-    }
+    }*/
 
     private boolean isMyServiceRunning(Class<?> serviceClass) {
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);

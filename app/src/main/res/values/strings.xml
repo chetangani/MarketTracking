@@ -12,6 +12,10 @@
     <string name="login_id">Login ID</string>
     <string name="login_password">Password</string>
     <string name="tomeet">To Meet</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="mobile">Mobile</string>
+    <string name="company">Company Name</string>
     <string name="address">Address</string>
     <string name="remarks">Remarks</string>
     <string name="submit_btn">Submit</string>

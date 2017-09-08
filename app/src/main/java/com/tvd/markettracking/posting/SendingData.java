@@ -97,8 +97,9 @@ public class SendingData {
         protected String doInBackground(String... params) {
             HashMap<String, String> datamap = new HashMap<>();
             datamap.put("MTP_ID", params[0]);
-            datamap.put("Longitude", params[1]);
-            datamap.put("Latitude", params[2]);
+            datamap.put("LONGITUDE", params[1]);
+            datamap.put("LATITUDE", params[2]);
+            datamap.put("LOCATION", params[3]);
             try {
                 response = UrlPostConnection(DataAPI.BASE_URL+"TRKRLOG", datamap);
             } catch (IOException e) {

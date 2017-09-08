@@ -29,13 +29,22 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
-                  android:screenOrientation="portrait" />
-        <service android:name=".services.LocationTrace" />
-        <receiver android:name=".receiver.LocationReceiver" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait"/>
+
+        <receiver android:name=".receiver.LocationReceiver"/>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAx1zMcEuGD4lk77coCmdbnCQzsoV8p04s"/>
+
+        <service android:name=".services.LocationTrace"/>
+        <service android:name=".services.LocationService" />
     </application>
 
 </manifest>

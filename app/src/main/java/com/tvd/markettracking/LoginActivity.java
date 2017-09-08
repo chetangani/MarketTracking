@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -65,6 +66,8 @@ public class LoginActivity extends AppCompatActivity {
                         break;
 
                     case LOGIN_FAILURE:
+                        progressDialog.dismiss();
+                        Snackbar.make(sign_in_btn, "Incorrect Login_ID and password", Snackbar.LENGTH_SHORT).show();
                         break;
                 }
             }
